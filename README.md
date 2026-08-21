@@ -47,7 +47,7 @@ notebook and ships it as a served API with a real frontend.
 cd backend
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-python3 -m app.ml.train_model   # trains the model, writes artifacts/
+python3 -m app.ml.train_model   # trains the model, writes app/artifacts/
 uvicorn app.main:app --reload   # http://localhost:8000 (docs at /docs)
 ```
 

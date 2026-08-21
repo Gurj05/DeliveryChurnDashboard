@@ -7,7 +7,7 @@ import pandas as pd
 
 from app.ml.features import FEATURE_COLUMNS
 
-ARTIFACTS_DIR = Path(__file__).resolve().parent.parent.parent / "artifacts"
+ARTIFACTS_DIR = Path(__file__).resolve().parent.parent / "artifacts"
 
 
 @lru_cache

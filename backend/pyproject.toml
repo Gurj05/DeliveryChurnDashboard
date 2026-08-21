@@ -11,3 +11,13 @@ dependencies = [
     "openpyxl",
     "pydantic",
 ]
+
+[tool.setuptools]
+py-modules = ["main"]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["app*"]
+
+[tool.setuptools.package-data]
+app = ["artifacts/*.pkl", "artifacts/*.json"]

@@ -32,7 +32,7 @@ from app.ml.features import CHANNEL_COLUMNS, FEATURE_COLUMNS, NUMERIC_FEATURES
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 DATA_PATH = BASE_DIR / "data" / "Data Deliveries.xlsx"
-ARTIFACTS_DIR = BASE_DIR / "artifacts"
+ARTIFACTS_DIR = BASE_DIR / "app" / "artifacts"
 
 RNG = np.random.default_rng(42)
 N_SYNTHETIC_CUSTOMERS = 250
