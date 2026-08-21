@@ -61,11 +61,21 @@ npm run dev                        # http://localhost:3000
 
 ## Deploying
 
-**Backend (Render):** New → Web Service → connect this repo → root directory `backend` →
-Render will pick up `render.yaml` automatically. Set `ALLOWED_ORIGINS` to your Vercel
-frontend URL once you have it. Free tier spins down on inactivity, so the first request
-after idle can take 30-50s.
+**Backend (FastAPI Cloud):** the official hosting product from the FastAPI team, free
+Hobby plan, no credit card. From `backend/`:
+```bash
+pip install "fastapi[standard]"   # bundles the fastapi CLI
+fastapi deploy                    # prompts a browser login on first use, then deploys
+```
+It picks up `pyproject.toml` for dependencies and `main.py` (which re-exports the app from
+`app/main.py`) as the entry point.
+
+A `render.yaml` is also included as an alternative if you'd rather deploy to Render
+instead — same idea, just note Render now asks for a card on file even for its free tier,
+and free instances spin down on inactivity (30-50s cold start on the first request after).
+
+Either way, set `ALLOWED_ORIGINS` to your Vercel frontend URL once you have it.
 
 **Frontend (Vercel):** New Project → import this repo → root directory `frontend` → set
-`NEXT_PUBLIC_API_URL` to your Render backend URL. Vercel auto-detects Next.js, no other
-config needed.
+`NEXT_PUBLIC_API_URL` to your backend URL. Vercel auto-detects Next.js, no other config
+needed.

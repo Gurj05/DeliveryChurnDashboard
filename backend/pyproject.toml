@@ -1,0 +1,13 @@
+[project]
+name = "delivery-churn-dashboard-api"
+version = "0.1.0"
+description = "Churn-prediction API serving a trained scikit-learn pipeline"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi[standard]",
+    "pandas",
+    "scikit-learn",
+    "joblib",
+    "openpyxl",
+    "pydantic",
+]
