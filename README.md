@@ -13,7 +13,7 @@ notebook and ships it as a served API with a real frontend.
 |---|---|
 | ![Dashboard](screenshots/dashboard.png) | ![Predict](screenshots/predict.png) |
 
-**Live demo:** backend API at [delivery-churn-api.fastapicloud.dev](https://delivery-churn-api.fastapicloud.dev) (interactive docs at [/docs](https://delivery-churn-api.fastapicloud.dev/docs)) — frontend deploy to Vercel pending
+**Live demo:** [delivery-churn-dashboard.vercel.app](https://delivery-churn-dashboard.vercel.app) — backend API at [delivery-churn-api.fastapicloud.dev](https://delivery-churn-api.fastapicloud.dev) (interactive docs at [/docs](https://delivery-churn-api.fastapicloud.dev/docs))
 
 ## How it works
 
