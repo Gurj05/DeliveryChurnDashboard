@@ -9,9 +9,9 @@ notebook and ships it as a served API with a real frontend.
 
 ## Screenshots
 
-| Dashboard | Live prediction |
-|---|---|
-| ![Dashboard](screenshots/dashboard.png) | ![Predict](screenshots/predict.png) |
+| Dashboard | Live prediction | Upload your own data |
+|---|---|---|
+| ![Dashboard](screenshots/dashboard.png) | ![Predict](screenshots/predict.png) | ![Upload](screenshots/upload.png) |
 
 **Live demo:** [delivery-churn-dashboard.vercel.app](https://delivery-churn-dashboard.vercel.app) — backend API at [delivery-churn-api.fastapicloud.dev](https://delivery-churn-api.fastapicloud.dev) (interactive docs at [/docs](https://delivery-churn-api.fastapicloud.dev/docs))
 
@@ -34,10 +34,16 @@ notebook and ships it as a served API with a real frontend.
 - The trained pipeline is persisted with `joblib` and loaded once at API startup —
   `POST /api/predict` runs genuine live inference on whatever values you submit, not a
   lookup.
+- **Upload your own data** (`/upload`): `POST /api/upload` runs the same trained pipeline
+  against an uploaded `.xlsx` file — not retraining, live inference on your data through
+  the existing model. The file needs the same columns as `Data Deliveries.xlsx` (`Date`,
+  `Address`, `Amount`, `Channel`, `Time`); it's processed entirely in memory and never
+  stored or logged. The ETL (`backend/app/ml/etl.py`) is shared between training and this
+  endpoint, so both paths engineer features identically.
 
 ## Stack
 
-- **Backend:** FastAPI, scikit-learn, pandas, joblib — deployed on Render
+- **Backend:** FastAPI, scikit-learn, pandas, joblib — deployed on FastAPI Cloud
 - **Frontend:** Next.js (App Router), TypeScript, Tailwind CSS, Recharts — deployed on Vercel
 
 ## Running locally

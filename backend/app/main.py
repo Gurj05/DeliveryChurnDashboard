@@ -3,7 +3,7 @@ import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routers import customers, predict, summary
+from app.routers import customers, predict, summary, upload
 
 app = FastAPI(
     title="Delivery Churn Dashboard API",
@@ -22,6 +22,7 @@ app.add_middleware(
 app.include_router(customers.router)
 app.include_router(summary.router)
 app.include_router(predict.router)
+app.include_router(upload.router)
 
 
 @app.get("/")

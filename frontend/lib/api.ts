@@ -50,3 +50,21 @@ export const predictChurn = (request: PredictRequest) =>
     method: "POST",
     body: JSON.stringify(request),
   });
+
+export async function uploadAndPredict(file: File): Promise<Customer[]> {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const res = await fetch(`${API_URL}/api/upload`, {
+    method: "POST",
+    body: formData,
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    const body = await res.json().catch(() => null);
+    throw new Error(body?.detail || `Upload failed: ${res.status}`);
+  }
+
+  return res.json();
+}

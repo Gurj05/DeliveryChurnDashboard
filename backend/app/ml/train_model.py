@@ -28,6 +28,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
+from app.ml.etl import engineer_customers, load_orders_dataframe
 from app.ml.features import CHANNEL_COLUMNS, FEATURE_COLUMNS, NUMERIC_FEATURES
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -37,45 +38,6 @@ ARTIFACTS_DIR = BASE_DIR / "app" / "artifacts"
 RNG = np.random.default_rng(42)
 N_SYNTHETIC_CUSTOMERS = 250
 CHURN_THRESHOLD_DAYS = 180
-
-
-def time_to_seconds(t) -> float:
-    if pd.isnull(t):
-        return np.nan
-    if isinstance(t, str):
-        parts = t.split(":")
-        h, m = int(parts[0]), int(parts[1])
-        s = int(parts[2]) if len(parts) > 2 else 0
-        return h * 3600 + m * 60 + s
-    return t.hour * 3600 + t.minute * 60 + getattr(t, "second", 0)
-
-
-def load_real_orders() -> pd.DataFrame:
-    sheets = pd.read_excel(DATA_PATH, sheet_name=None)
-    df = pd.concat(sheets.values(), ignore_index=True)
-    df["Date"] = pd.to_datetime(df["Date"], errors="coerce")
-    df = df.dropna(subset=["Date"])
-    df["time_in_seconds"] = df["Time"].apply(time_to_seconds)
-    return df
-
-
-def engineer_real_customers(df: pd.DataFrame, reference_date: pd.Timestamp) -> pd.DataFrame:
-    """Real feature rows for the 6 real accounts, computed the same way the synthetic ones are."""
-    rows = []
-    for i, (address, group) in enumerate(sorted(df.groupby("Address"))):
-        channel_counts = group["Channel"].value_counts()
-        row = {
-            "customer_id": f"Customer {chr(65 + i)}",
-            "is_synthetic": False,
-            "total_orders": len(group),
-            "avg_order_amount": group["Amount"].mean(),
-            "avg_order_time": group["time_in_seconds"].mean(),
-            "days_since_last_order": (reference_date - group["Date"].max()).days,
-        }
-        for channel in CHANNEL_COLUMNS:
-            row[channel] = int(channel_counts.get(channel, 0))
-        rows.append(row)
-    return pd.DataFrame(rows)
 
 
 def generate_synthetic_customers(df: pd.DataFrame, n: int) -> pd.DataFrame:
@@ -118,10 +80,10 @@ def generate_synthetic_customers(df: pd.DataFrame, n: int) -> pd.DataFrame:
 def main():
     ARTIFACTS_DIR.mkdir(exist_ok=True)
 
-    orders = load_real_orders()
+    orders = load_orders_dataframe(DATA_PATH)
     reference_date = orders["Date"].max()
 
-    real_customers = engineer_real_customers(orders, reference_date)
+    real_customers = engineer_customers(orders, reference_date, anonymize=True)
     synthetic_customers = generate_synthetic_customers(orders, N_SYNTHETIC_CUSTOMERS)
 
     training_set = pd.concat([real_customers, synthetic_customers], ignore_index=True)

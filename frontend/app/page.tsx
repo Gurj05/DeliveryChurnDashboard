@@ -16,12 +16,20 @@ export default async function DashboardPage() {
             Live churn predictions served from a trained scikit-learn pipeline.
           </p>
         </div>
-        <Link
-          href="/predict"
-          className="rounded-lg bg-neutral-900 px-4 py-2 text-sm font-medium text-white hover:bg-neutral-800"
-        >
-          Try the model →
-        </Link>
+        <div className="flex gap-3">
+          <Link
+            href="/upload"
+            className="rounded-lg border border-neutral-300 px-4 py-2 text-sm font-medium text-neutral-900 hover:bg-neutral-100"
+          >
+            Upload your data
+          </Link>
+          <Link
+            href="/predict"
+            className="rounded-lg bg-neutral-900 px-4 py-2 text-sm font-medium text-white hover:bg-neutral-800"
+          >
+            Try the model →
+          </Link>
+        </div>
       </div>
 
       <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-4">
